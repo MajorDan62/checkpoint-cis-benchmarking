@@ -1,0 +1,67 @@
+show hostname
+fw ver 
+show date
+show uptime
+#1 PASSWORD POLICY
+show password-controls min-password-length
+show password-controls palindrome-check
+show password-controls complexity
+show password-controls history-checking
+show password-controls history-length
+show password-controls password-expiration
+show password-controls expiration-warning-days
+show password-controls expiration-lockout-days
+show password-controls deny-on-nonuse enable
+show password-controls deny-on-nonuse allowed-days
+show password-controls force-change-when
+show password-controls deny-on-fail enable
+show password-controls deny-on-fail failures-allowed
+show password-controls deny-on-fail allow-after
+#2 DEVICE SETUP
+#2.1 GENERAL SETTINGS
+show configuration message
+set message motd
+show core-dump status
+show config-state
+#2.1.5 show interfaces all - Migrated to Last Command
+#2.1.6 Ensure DNS server is configured
+#2.1.7 show ipv6-state
+#2.1.5
+#2.1.9
+#2.1.10
+#SNMP
+show snmp agent
+show snmp agent-version
+show snmp traps enabled-traps
+#AUTHENICATION SETTINGS
+show inactivity-timeout
+show web session-timeout
+show asset  all
+#BACKUPS
+show backup last-successful
+show timezone
+show snmp traps receivers 
+show aaa tacacs-servers state
+show aaa tacacs-servers list
+show allowed-client all
+show syslog auditlog
+show syslog cplogs
+show configuration message
+show core-dump status
+show config-state
+show dns
+show ipv6-state
+show net-access telnet
+show dhcp server status
+show password-controls deny-on-nonuse enable
+show password-controls deny-on-fail allow-after
+#show backup last-successful
+show snapshots
+#NTP
+show ntp active
+#LOGGING
+show syslog mgmtauditlogs
+show syslog auditlog
+show syslog cplogs
+show backup-scheduled *
+show interfaces all
