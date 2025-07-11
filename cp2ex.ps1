@@ -58,7 +58,7 @@ function txt2excel{
         #then creates and formats the excel doemnt before saving it in the curremt directory
         
         param ([string]$hostname,[string]$serialnumber,[PSCustomObject]$data,[string]$filepath)
-        $postfix        =       Get-Date -format yyyyMMdd_hhmm
+        $postfix        =       Get-Date -format yyyyMMdd_HHmm
         $excelpath      =       "$($PWD)\$($hostname)_$($postfix).xlsx"
     
      
