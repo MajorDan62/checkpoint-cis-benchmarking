@@ -47,6 +47,12 @@ function Find-editDataPos {
 
 function Write-CritialError {param ([string]$Text);$esc = [char]27; Write-Host "$esc[5;37;41m $Text $esc[0m"}
 
+
+function Does-FileExists {
+        param ([string]$FilePath)
+        if (Test-Path $FilePath) {Write-Host -f green "$FilePath ✔️"; return $true} else { Write-Host -f red "$FilePath ❌";return $false}
+}
+
 function txt2excel{
         #This function and formats data passedti it from the array $data 
         #then creates and formats the excel doemnt before saving it in the curremt directory
@@ -399,7 +405,6 @@ function ProcessData {
         $status         =       $status -split "`n" | ForEach-Object {$line = $_.Trim();if ($line -ne "") {$formattedstatus+=$line}}
         $status         =       $formattedstatus
 
- 
         $results        = @()
         $counter=0
 
@@ -451,8 +456,13 @@ write-host      -b DarkYellow -f black " Checkpoint Conversion Script           
 Write-host      -b DarkYellow -f black " CIS Benchmarking                         "
 write-host      -b DarkYellow -f black " Version 0.b1 [MAJ/RO/SS/PC]              "    
 write-host      -b DarkYellow -f black "                                          "
+$requiredFiles = @("$PWD\_benchmarking.csv","$PWD\_commands.txt    ")
 
-if (!$txtsrc){Write-CritialError  -b red -f white  "            NO FILES FOUND!             " ;break}        
+$allExist = $true
+foreach ($file in $requiredFiles) {if (-not (Does-FileExists $file)) {$allExist = $false}}
+if (!$allExist){Write-CritialError  -b red -f white  "      CONFIGURATION FILES MISSING!      " ;break}  
+
+if (!$txtsrc){Write-CritialError  -b red -f   white  "            NO FILES FOUND!             " ;break}        
 $textsrc        =       "$($PWD)\$($txtsrc)"   ;write-host  
 
 write-host      -f green "$($txtsrc.count) Text files located in $($PWD)"
