@@ -14,6 +14,11 @@
     return $match.value
 }
 
+function Ensure-ExcelOutputDirectory {
+    param ([string]$Path = "$PWD\excel_outputs")
+    if (-not (Test-Path -Path $Path -PathType Container)) {New-Item -ItemType Directory -Path $Path | Out-Null;return $true} else {return $false }
+}
+
 function Find-Phrase {
         param ([string]$FilePath,[string]$Phrase)
         $i = 0;Get-Content $FilePath | ForEach-Object {$i++;$pos = $_.IndexOf($Phrase);if ($pos -ge 0) {[PSCustomObject]@{LineNumber = ($i-1);Position = $pos;LineText = $_}}}
@@ -69,7 +74,7 @@ function txt2excel{
         
         param ([string]$hostname,[string]$serialnumber,[PSCustomObject]$data,[string]$filepath)
         $postfix        =       Get-Date -format yyyyMMdd_HHmm
-        $excelpath      =       "$($PWD)\$($hostname)_$($postfix).xlsx"
+        $excelpath      =       "$($PWD)\excel_outputs\$($hostname)_$($postfix).xlsx"
     
         write-host "Output >> $($excelPath)"
         
@@ -117,7 +122,8 @@ function txt2excel{
         #$x      =   $worksheet.Range("d10", "d90").HorizontalAlignment   =   -4108       # -4108 corresponds to xcenter (lcenter alignment)
 
         #Save and close
-        $workbook.Saveas($excelPath)
+
+        $workbook.Saveas($excelpath)
         $workbook.Close($false)
         $excel.Quit()
 
@@ -471,6 +477,7 @@ if ($_exop_) { ScreenAlignment 1 4;write-host      -b DarkYellow -f black "[EXOP
 $allExist = $true
 $requiredFiles = @("$PWD\_benchmarking.csv","$PWD\_commands.txt    ")
 foreach ($file in $requiredFiles) {if (-not (Does_FileExists $file)) {$allExist = $false}}
+if ( Ensure-ExcelOutputDirectory ){write-host -f blue "Created New Directory '$PWD\excel_outputs' ✔️"}
 if (!$allExist){Write-CritialError  -b red -f white  "      CONFIGURATION FILES MISSING!       " ;break}  
 
 if (!$txtsrc){Write-CritialError  -b red -f   white  "            NO FILES FOUND!              " ;break}        
